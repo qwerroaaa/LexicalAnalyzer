@@ -13,15 +13,15 @@ namespace LexicalAnalyzer.types
 {
     public static class Input
     {
-        public static void END(string data)
+        public static void Recognized(string data)
         {
             InputData.lexems.Add((InputData.Current.ToString(), data));
-            InputData.Pointer++;
+            InputData.index++;
         }
         public static void Analyse(string inputString)
         {
             InputData.Data = inputString;
-            while (InputData.Pointer < InputData.Data.Length)
+            while (InputData.index < InputData.Data.Length)
             {
                 string current = InputData.RecognizeChar();
                 switch (current)
@@ -35,27 +35,31 @@ namespace LexicalAnalyzer.types
                         break;
 
                     case "< >":
-                        InputData.Pointer++;
+                        InputData.index++;
                         break;
 
                     case "<,>":
-                        END("разделительный символ");
+                        Recognized("разделительный символ");
                         break;
 
                     case "<;>":
-                        END("концевой символ");
+                        Recognized("концевой символ");
                         break;
 
-                    case "<c>":
-                        END($"спецсимвол {InputData.Current}");
+                    case "<cкобки>":
+                        Recognized($"спецсимвол {InputData.Current}");
                         break;
 
-                    case ">,<":
+                    case "<ЗО>":
+                        Recognized($"спецсимвол {InputData.Current}");
+                        break;
+
+                    case ">,<,!":
                         Comparison.Analyse();
                         break;
 
                     case "<=>":
-                        END("оператор присваивания");
+                        Recognized("оператор присваивания");
                         break;
                     default:
                         throw new Exception($"Недопустимый символ. {current}");

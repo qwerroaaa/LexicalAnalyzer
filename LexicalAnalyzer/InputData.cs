@@ -10,16 +10,16 @@ namespace LexicalAnalyzer
 {
     public static class InputData
     {
-            public static string Data { get; set; } = "int a = 52";
-            public static int Pointer { get; set; } = 0;
+            public static string Data { get; set; } = "int a = 52;";
+            public static int index { get; set; } = 0;
 
-            public static char Current { get { return Data[Pointer]; } }
+            public static char Current { get { return Data[index]; } }
 
             public static List<(string, string)> lexems = new List<(string, string)>();
 
             public static string RecognizeChar()
             {
-                if (Pointer >= Data.Length) throw new Exception("Внезапное окончание файла");
+                if (index >= Data.Length) throw new Exception("Ошибка в InputData.cs");
                 else if (Current >= '0' && Current <= '9')
                     return "<ц>";
                 else if (Current >= 'a' && Current <= 'z' || Current >= 'A' && Current <= 'Z')

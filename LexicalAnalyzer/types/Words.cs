@@ -15,16 +15,16 @@ namespace LexicalAnalyzer.types
     {
         private static readonly List<string> ListOfFunctionWords = new List<string>() { "while", "int", "print", "write", "if", "else", "or", "not", "and" };
         private static string variable = "";
-        private static void END()
+        private static void Recognized()
         {
-            InputData.Pointer++;
-            END_minus();
+            InputData.index++;
+            next();
         }
 
-        private static void END_minus()
+        private static void next()
         {
             if (ListOfFunctionWords.Contains(variable))
-                InputData.lexems.Add(("зарезервированное_слово", variable));
+                InputData.lexems.Add(("зарезервированное слово", variable));
             else
                 InputData.lexems.Add(("идентификатор", variable));
             variable = "";
@@ -33,22 +33,21 @@ namespace LexicalAnalyzer.types
         public static void Analyse()
         {
             variable += InputData.Current;
-            InputData.Pointer++;
+            InputData.index++;
 
-            if (InputData.Pointer >= InputData.Data.Length) throw new Exception($"неожиданное окончание файла при чтении name");
+            if (InputData.index >= InputData.Data.Length) throw new Exception($"variable / ошибка в Words.cs");
 
 
             switch (InputData.RecognizeChar())
             {
                 case "<ц>": Analyse(); break;
                 case "<б>": Analyse(); break;
-                case "< >": END(); break;
-                case "<'>": throw new Exception("Недопустимый символ");
-                case "<,>": END_minus(); break;
-                case "<;>": END_minus(); break;
-                case "<с>": END_minus(); break;
-                case ">,<": END_minus(); break;
-                case "<=>": END_minus(); break;
+                case "< >": Recognized(); break;
+                case "<,>": next(); break;
+                case "<;>": next(); break;
+                case "<скобки>": next(); break;
+                case "<ЗО>": next(); break;
+                case "<=>": next(); break;
                 default: throw new Exception("Недопустимый символ");
             }
         }

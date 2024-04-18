@@ -15,15 +15,15 @@ namespace LexicalAnalyzer.types
     {
         private static char prev = ' ';
 
-        private static void END()
+        private static void Recognized()
         {
-            if (InputData.Current == ' ') InputData.lexems.Add(("оператор сравнения", prev.ToString())); //Console.WriteLine($"Распознан оператор сравнения: {prev} ");
+            if (InputData.Current == ' ') InputData.lexems.Add(("оператор сравнения", prev.ToString()));
             else if (InputData.Current == '=') InputData.lexems.Add(("оператор сравнения", prev.ToString() + '='));
             else throw new Exception("Недопустимый символ");
 
-            InputData.Pointer++;
+            InputData.index++;
         }
-        private static void END_minus()
+        private static void next()
         {
             Console.WriteLine($"Распознан оператор сравнения: {prev} ");
         }
@@ -31,22 +31,22 @@ namespace LexicalAnalyzer.types
         public static void Analyse()
         {
             prev = InputData.Current;
-            InputData.Pointer++;
+            InputData.index++;
 
-            if (InputData.Pointer >= InputData.Data.Length) throw new Exception($"неожиданное окончание файла при сравнении");
+            if (InputData.index >= InputData.Data.Length) throw new Exception($"Ошибка в файле Comparison.cs");
 
 
             switch (InputData.RecognizeChar())
             {
-                case "<ц>": END_minus(); break;
-                case "<б>": END_minus(); break;
-                case "< >": END(); break;
-                case "<'>": END_minus(); break;
+                case "<ц>": next(); break;
+                case "<б>": next(); break;
+                case "< >": Recognized(); break;
                 case "<,>": throw new Exception("Недопустимый символ");
                 case "<;>": throw new Exception("Недопустимый символ");
-                case "<с>": END_minus(); break;
-                case ">,<": END(); break;
-                case "<=>": END(); break;
+                case "<скобки>": next(); break;
+                case "<ЗО>": next(); break;
+                case ">,<": Recognized(); break;
+                case "<=>": Recognized(); break;
                 default: throw new Exception("Недопустимый символ");
             }
         }

@@ -14,13 +14,13 @@ namespace LexicalAnalyzer.types
     public static class Numbers
     {
         private static int number = 0;
-        private static void END()
+        private static void Recognized()
         {
-            InputData.Pointer++;
+            InputData.index++;
             InputData.lexems.Add(("Число", number.ToString()));
             number = 0;
         }
-        private static void END_minus()
+        private static void next()
         {
             InputData.lexems.Add(("Число", number.ToString()));
             number = 0;
@@ -28,22 +28,21 @@ namespace LexicalAnalyzer.types
         public static void Analyse()
         {
             number = number * 10 + (InputData.Current - '0');
-            InputData.Pointer++;
+            InputData.index++;
 
-            if (InputData.Pointer >= InputData.Data.Length) throw new Exception($"неожиданное окончание файла при чтении числа");
+            if (InputData.index >= InputData.Data.Length) throw new Exception($"Ошибка в Numbers.cs");
 
 
             switch (InputData.RecognizeChar())
             {
                 case "<ц>": Analyse(); break;
                 case "<б>": throw new Exception("Недопустимый символ");
-                case "< >": END(); break;
-                case "<'>": throw new Exception("Недопустимый символ");
-                case "<,>":
+                case "< >": Recognized(); break;
+                case "<скобки>":
                 case "<;>":
-                case "<с>":
-                case ">,<":
-                case "<=>": END_minus(); break;
+                case "<ЗО>":
+                case ">,<,!":
+                case "<=>": next(); break;
                 default: throw new Exception("Недопустимый символ");
             }
         }
