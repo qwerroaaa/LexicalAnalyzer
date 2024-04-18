@@ -45,7 +45,7 @@ namespace LexicalAnalyzer.types
                 case "<;>": throw new Exception("Недопустимый символ");
                 case "<скобки>": next(); break;
                 case "<ЗО>": next(); break;
-                case ">,<": Recognized(); break;
+                case ">,<,!": Recognized(); break;
                 case "<=>": Recognized(); break;
                 default: throw new Exception("Недопустимый символ");
             }

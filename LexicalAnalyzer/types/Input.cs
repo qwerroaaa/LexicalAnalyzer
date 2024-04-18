@@ -46,7 +46,7 @@ namespace LexicalAnalyzer.types
                         Recognized("концевой символ");
                         break;
 
-                    case "<cкобки>":
+                    case "<скобки>":
                         Recognized($"спецсимвол {InputData.Current}");
                         break;
 

@@ -10,7 +10,7 @@ namespace LexicalAnalyzer
 {
     public static class InputData
     {
-            public static string Data { get; set; } = "int a = 52;";
+            public static string Data { get; set; } = "int number = 102;";
             public static int index { get; set; } = 0;
 
             public static char Current { get { return Data[index]; } }
@@ -37,7 +37,7 @@ namespace LexicalAnalyzer
                         Current == ']' ||
                         Current == '{' ||
                         Current == '}')
-                    return "<cкобки>";
+                    return "<скобки>";
                 else throw new ArgumentOutOfRangeException("символ \"" + Current + "\" недопустим в грамматике");
         }
     }
