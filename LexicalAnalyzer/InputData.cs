@@ -29,7 +29,7 @@ namespace LexicalAnalyzer
                 else if (Current == ';') return "<;>";
                 else if (Current == '+' || Current == '-' || Current == '*' || Current == '/')
                     return "<ЗО>";
-                else if (Current == '<' || Current == '>') return ">,<";
+                else if (Current == '<' || Current == '>' || Current == '!') return ">,<,!";
                 else if (Current == '=') return "<=>";
                 else if (Current == '(' ||
                         Current == ')' ||
@@ -38,7 +38,6 @@ namespace LexicalAnalyzer
                         Current == '{' ||
                         Current == '}')
                     return "<cкобки>";
-                else if (Current == '!') return "<!>";
                 else throw new ArgumentOutOfRangeException("символ \"" + Current + "\" недопустим в грамматике");
         }
     }

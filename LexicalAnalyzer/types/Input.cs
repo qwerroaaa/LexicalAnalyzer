@@ -51,7 +51,7 @@ namespace LexicalAnalyzer.types
                         break;
 
                     case ">,<":
-                        COMP.Analyse();
+                        Comparison.Analyse();
                         break;
 
                     case "<=>":

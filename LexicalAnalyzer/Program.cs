@@ -4,7 +4,7 @@ namespace LexicalAnalyzer
 {
     public static class Program
     {
-        static void main()
+        static void Main()
         {
             string? inputString = Console.ReadLine();
 
@@ -16,9 +16,9 @@ namespace LexicalAnalyzer
                 Input.Analyse(inputString);
             }
 
-            foreach (var ls in InputData.lexems)
+            foreach (var lexems in InputData.lexems)
             {
-                Console.WriteLine($"Распознана лексема: {ls.Item1} значение: {ls.Item2}");
+                Console.WriteLine($"Распознана лексема: {lexems.Item1} значение: {lexems.Item2}");
             }
         }
     }

@@ -13,8 +13,8 @@ namespace LexicalAnalyzer.types
 {
     public static class Words
     {
-        private static readonly List<string> _reservedWords = new List<string>() { "while", "int", "string", "bool", "print", "input", "if", "else", "or", "not", "and" };
-        private static string _name = "";
+        private static readonly List<string> ListOfFunctionWords = new List<string>() { "while", "int", "print", "write", "if", "else", "or", "not", "and" };
+        private static string variable = "";
         private static void END()
         {
             InputData.Pointer++;
@@ -23,19 +23,16 @@ namespace LexicalAnalyzer.types
 
         private static void END_minus()
         {
-            if (_reservedWords.Contains(_name))
-                InputData.lexems.Add(("зарезервированное_слово", _name));
-            //Console.WriteLine($"Распознано зарезервированное слово: {_name};");
+            if (ListOfFunctionWords.Contains(variable))
+                InputData.lexems.Add(("зарезервированное_слово", variable));
             else
-                InputData.lexems.Add(("идентификатор", _name));
-            //Console.WriteLine($"Распознан идентификатор: {_name};");
-
-            _name = "";
+                InputData.lexems.Add(("идентификатор", variable));
+            variable = "";
         }
 
         public static void Analyse()
         {
-            _name += InputData.Current;
+            variable += InputData.Current;
             InputData.Pointer++;
 
             if (InputData.Pointer >= InputData.Data.Length) throw new Exception($"неожиданное окончание файла при чтении name");
