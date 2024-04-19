@@ -139,10 +139,10 @@ namespace LexicalAnalyzer
         {
             string word = "";
 
-            while (_currentIndex < _inputData.Length && (IsEnglishLetter(CurrentChar) || char.IsDigit(CurrentChar) || CurrentChar == '_'))
+            while (_currentIndex < _inputData.Length && (IsEnglishLetter(CurrentChar) || char.IsDigit(CurrentChar)))
             {
-                word += CurrentChar;
-                MoveNext();
+                    word += CurrentChar;
+                    MoveNext();
             }
 
             if (_reservedKeywords.Contains(word))
@@ -189,13 +189,16 @@ namespace LexicalAnalyzer
             return new Lexeme("Оператор сравнения", op);
         }
 
-
-
-
         private Lexeme AnalyzeOperation()
         {
             string operation = CurrentChar.ToString();
             MoveNext();
+
+            if (_currentIndex < _inputData.Length && IsOperator(CurrentChar) && operation == CurrentChar.ToString())
+            {
+                throw new Exception($"Двойное использование оператора: {operation}");
+            }
+
             if (_currentIndex < _inputData.Length && IsOperator(CurrentChar))
             {
                 operation += CurrentChar;
