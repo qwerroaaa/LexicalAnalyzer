@@ -48,7 +48,13 @@ namespace LexicalAnalyzer
 
                 if (char.IsDigit(currentChar))
                 {
-                    lexemes.Add(AnalyzeNumber());
+                    int number = AnalyzeNumber();
+                    lexemes.Add(new Lexeme("Число", number.ToString()));
+
+                    if (_currentIndex < _inputData.Length && char.IsLetter(CurrentChar))
+                    {
+                        throw new Exception($"Ошибка: после числа не может идти идентификатор: {_inputData.Substring(_currentIndex)}");
+                    }
                 }
                 else if (char.IsLetter(currentChar))
                 {
@@ -122,17 +128,18 @@ namespace LexicalAnalyzer
             return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
         }
 
-        private Lexeme AnalyzeNumber()
+        private int AnalyzeNumber()
         {
-            string number = "";
+            int number = 0;
 
             while (_currentIndex < _inputData.Length && char.IsDigit(CurrentChar))
             {
-                number += CurrentChar;
+                int digitValue = CurrentChar - '0';
+                number = number * 10 + digitValue;
                 MoveNext();
             }
 
-            return new Lexeme("Число", number);
+            return number;
         }
 
         private Lexeme AnalyzeWord()
