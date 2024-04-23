@@ -7,11 +7,19 @@ namespace LexicalAnalyzer
     {
         public string Type { get; }
         public string Value { get; }
-
-        public Lexeme(string type, string value)
+        public int Number {  get; }
+        public Lexeme(string type, string value, int number = 0)
         {
             Type = type;
             Value = value;
+            Number = number;
+        }
+    }
+    public static class Utility
+    {
+        public static bool IsInteger(object obj)
+        {
+            return obj is int;
         }
     }
 
@@ -49,7 +57,7 @@ namespace LexicalAnalyzer
                 if (char.IsDigit(currentChar))
                 {
                     int number = AnalyzeNumber();
-                    lexemes.Add(new Lexeme("Число", number.ToString()));
+                    lexemes.Add(new Lexeme("Число", number.ToString(), number));
 
                     if (_currentIndex < _inputData.Length && char.IsLetter(CurrentChar))
                     {
@@ -141,6 +149,7 @@ namespace LexicalAnalyzer
 
             return number;
         }
+        
 
         private Lexeme AnalyzeWord()
         {
@@ -215,6 +224,7 @@ namespace LexicalAnalyzer
         }
     }
 
+
     class Program
     {
         static void Main()
@@ -228,7 +238,16 @@ namespace LexicalAnalyzer
             Console.WriteLine("Результат анализа:");
             foreach (var lexeme in lexemes)
             {
-                Console.WriteLine($"Тип: {lexeme.Type}, Значение: {lexeme.Value}");
+                if (lexeme.Type == "Число")
+                {
+                    bool isInteger = Utility.IsInteger(lexeme.Number);
+                    Console.WriteLine($"Тип: {lexeme.Type}, Значение: {lexeme.Number}, Является ли целым: {isInteger}");
+
+                } else
+                {
+                    Console.WriteLine($"Тип: {lexeme.Type}, Значение: {lexeme.Value}");
+                }
+                
             }
         }
     }
